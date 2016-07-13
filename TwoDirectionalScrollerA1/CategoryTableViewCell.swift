@@ -12,6 +12,13 @@ class CategoryTableViewCell: UITableViewCell {
 
     @IBOutlet weak var collectionView:UICollectionView!
     
+    var dataArray = ["A", "B", "C", "D", "E", "F", "G"]
+    
+    var genre:Genre? = nil {
+        didSet {
+            collectionView.reloadData()
+        }
+    }
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -28,23 +35,39 @@ class CategoryTableViewCell: UITableViewCell {
 extension CategoryTableViewCell:UICollectionViewDataSource {
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 12
+        return genre!.movies.count
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell0 = collectionView.dequeueReusableCellWithReuseIdentifier("collectCell0", forIndexPath: indexPath) as! VideoCollectionViewCell
-        
+        if let genre = genre {
+            cell0.movie = genre.movies[indexPath.row]
+        }
+        //cell0.tag = indexPath.row
+        //print(cell0.tag)
         return cell0
+    }
+    
+    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        //
     }
 }
 
 extension CategoryTableViewCell:UICollectionViewDelegateFlowLayout {
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+        /*
         let itemPerRow:CGFloat = 4
         let hardCodedPadding:CGFloat = 5
         let itemWidth = (collectionView.bounds.width / itemPerRow) - hardCodedPadding
         let itemHeight = collectionView.bounds.height - (2 * hardCodedPadding)
+        return CGSize(width: itemWidth, height: itemHeight)
+        */
+        let itemPerRow:CGFloat = 4
+        let hardCodedPadding:CGFloat = 5
+        let itemHeight = collectionView.bounds.height - (2 * hardCodedPadding)
+        let itemWidth = itemHeight * 300 / 444
+        
         return CGSize(width: itemWidth, height: itemHeight)
     }
 }

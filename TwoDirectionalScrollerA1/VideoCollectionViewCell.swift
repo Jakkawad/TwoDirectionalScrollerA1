@@ -7,8 +7,18 @@
 //
 
 import UIKit
+import AlamofireImage
 
 class VideoCollectionViewCell: UICollectionViewCell {
  
     @IBOutlet weak var imageViewProduct:UIImageView!
+    var movie:Movie? = nil {
+        didSet {
+            if let movie = movie,
+                let url = NSURL(string: movie.imageURL) {
+                self.imageViewProduct.af_setImageWithURL(url)
+            }
+        }
+    }
+    
 }

@@ -7,14 +7,26 @@
 //
 
 import UIKit
+import AlamofireImage
 
 class SecondViewController: UIViewController {
-
+    
+    var movie:Movie? = nil
+    
+    @IBOutlet weak var movieName: UILabel!
+    @IBOutlet weak var movieDescription: UILabel!
+    @IBOutlet weak var imageView: UIImageView!
+    
     override func viewDidLoad() {
-        super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        if let movie = movie {
+            movieName.text = movie.name
+            movieDescription.text = movie.movieDescription
+            if let url = NSURL(string: movie.imageURL) {
+                self.imageView.af_setImageWithURL(url)
+            }
+        }
     }
+
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
